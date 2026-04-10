@@ -2,7 +2,7 @@ package com.jeong.youtubetrend.infra.youtube.dto;
 
 import java.util.List;
 
-public record YoutubeVideoResponse(
+public record YoutubeVideosResponse(
         List<YoutubeVideoItem> items
 ) {
 
