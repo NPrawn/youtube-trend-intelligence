@@ -19,7 +19,7 @@ public class YoutubeVideoClient {
         return restClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/videos")
-                        .queryParam("part", "snippet,statistices,contentDetails")
+                        .queryParam("part", "snippet,statistics,contentDetails")
                         .queryParam("chart", "mostPopular")
                         .queryParam("regionCode", regionCode)
                         .queryParam("key", properties.key())
