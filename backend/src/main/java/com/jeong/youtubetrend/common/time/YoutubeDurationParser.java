@@ -1,15 +1,25 @@
 package com.jeong.youtubetrend.common.time;
 
+import com.jeong.youtubetrend.common.exception.InvalidYoutubeResponseException;
 import java.time.Duration;
+
 import org.springframework.stereotype.Component;
 
 @Component
 public class YoutubeDurationParser {
-    public int parseToSecond(String isoDuration) {
+
+    public int parseToSeconds(String isoDuration) {
         if (isoDuration == null || isoDuration.isBlank()) {
-            throw new IllegalArgumentException("isoDuration must not be blank");
+            throw new InvalidYoutubeResponseException("YouTube duration must not be blank.");
         }
 
-        return Math.toIntExact(Duration.parse(isoDuration).getSeconds());
+        try {
+            return Math.toIntExact(Duration.parse(isoDuration).getSeconds());
+        } catch (RuntimeException exception) {
+            throw new InvalidYoutubeResponseException(
+                    "Failed to parse YouTube duration: " + isoDuration,
+                    exception
+            );
+        }
     }
 }
