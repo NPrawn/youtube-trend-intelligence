@@ -1,8 +1,8 @@
-## 📌 Summary
+## 📌 요약
 
-## 📚 Changes
+## 📚 변경 사항
 
-## 📝 Note
+## 📝 참고 사항
 
-## 📌 Related Issue
+## 📌 관련 이슈
 - Closes #
