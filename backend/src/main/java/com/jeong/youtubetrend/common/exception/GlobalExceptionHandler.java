@@ -2,17 +2,23 @@ package com.jeong.youtubetrend.common.exception;
 
 import com.jeong.youtubetrend.common.response.ApiErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.HandlerMethodValidationException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(IllegalArgumentException.class)
+    @ExceptionHandler({
+            IllegalArgumentException.class,
+            ConstraintViolationException.class,
+            HandlerMethodValidationException.class
+    })
     public ResponseEntity<ApiErrorResponse> handleBadRequest(
-            IllegalArgumentException exception,
+            Exception exception,
             HttpServletRequest request
     ) {
         return buildResponse(
@@ -36,19 +42,6 @@ public class GlobalExceptionHandler {
         );
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiErrorResponse> handleUnexpectedError(
-            Exception exception,
-            HttpServletRequest request
-    ) {
-        return buildResponse(
-                HttpStatus.INTERNAL_SERVER_ERROR,
-                "INTERNAL_SERVER_ERROR",
-                "An unexpected error occurred.",
-                request.getRequestURI()
-        );
-    }
-
     private ResponseEntity<ApiErrorResponse> buildResponse(
             HttpStatus status,
             String error,
@@ -57,5 +50,6 @@ public class GlobalExceptionHandler {
     ) {
         return ResponseEntity.status(status)
                 .body(ApiErrorResponse.of(status.value(), error, message, path));
+
     }
 }

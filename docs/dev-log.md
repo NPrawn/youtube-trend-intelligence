@@ -32,3 +32,26 @@
 - API 응답을 내부 모델로 변환
 - `video`, `video_snapshot` 저장 로직 구현
 - 수집 결과 조회 API 구현
+
+## 2026-04-15
+
+### 인기 영상 저장 흐름 연결
+
+- `YoutubeDurationParser`와 관련 테스트를 추가했다.
+- YouTube `videos.list(mostPopular)` 응답을 내부 모델 `CollectedVideo`로 변환하는 매퍼를 추가했다.
+- `video`, `video_snapshot` 엔티티와 저장 매퍼를 연결해 수집 결과를 DB에 저장하는 서비스를 구현했다.
+- 동일한 `youtube_video_id`가 이미 있으면 `video`를 재사용하고 `video_snapshot`만 추가 저장하도록 처리했다.
+- 수동 검증용 `GET /debug/videos/collect-most-popular` 엔드포인트를 추가했다.
+- 저장 로직 단위 테스트와 통합 테스트를 추가했다.
+
+### 현재 상태
+
+- 인기 영상 수집 결과를 내부 모델로 변환할 수 있다.
+- 변환된 데이터를 `video`, `video_snapshot`에 저장할 수 있다.
+- 동일 비디오 재수집 시 snapshot 누적 저장을 검증했다.
+- 수집/저장 흐름 전체 테스트가 통과한다.
+
+### 남은 보정
+
+- `maxResults`가 실제 YouTube API 요청에 반영되도록 클라이언트를 보정해야 한다.
+- `sourceCategory`를 수집 요청부터 저장까지 일관되게 전달하도록 정리해야 한다.
