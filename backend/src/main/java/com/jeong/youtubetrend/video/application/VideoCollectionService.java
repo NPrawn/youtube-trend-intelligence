@@ -26,8 +26,13 @@ public class VideoCollectionService {
 
     @Transactional
     public int collectMostPopularVideos(String regionCode, int maxResults) {
-        YoutubeVideosResponse response = youtubeVideoClient.fetchMostPopularVideos(regionCode, maxResults);
-        OffsetDateTime collectedAt = OffsetDateTime.now();
+        return collectMostPopularVideos(regionCode, maxResults, null);
+    }
+
+    @Transactional
+    public int collectMostPopularVideos(String regionCode, int maxResults, String videoCategoryId) {
+        YoutubeVideosResponse response = youtubeVideoClient.fetchMostPopularVideos(regionCode, maxResults, videoCategoryId);
+        OffsetDateTime collectedAt =  OffsetDateTime.now();
 
         int savedCount = 0;
         int rank = 1;
@@ -39,7 +44,7 @@ public class VideoCollectionService {
                     collectedVideo,
                     collectedAt,
                     regionCode,
-                    null,
+                    videoCategoryId,
                     rank
             );
 

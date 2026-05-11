@@ -23,21 +23,45 @@ public class YoutubeVideoClient {
     }
 
     public YoutubeVideosResponse fetchMostPopularVideos(String regionCode, int maxResults) {
+        return fetchMostPopularVideos(regionCode, maxResults, null);
+    }
+
+    public YoutubeVideosResponse fetchMostPopularVideos(String regionCode, int maxResults, String videoCategoryId) {
         try {
             return restClient.get()
-                    .uri(uriBuilder -> uriBuilder
-                            .path("/videos")
-                            .queryParam("part", "snippet,statistics,contentDetails")
-                            .queryParam("chart", "mostPopular")
-                            .queryParam("regionCode", regionCode)
-                            .queryParam("key", properties.key())
-                            .build()
-                    )
+                    .uri(uriBuilder -> {
+                        if (videoCategoryId == null || videoCategoryId.isBlank()) {
+                            return uriBuilder
+                                    .path("/videos")
+                                    .queryParam("part", "snippet,statistics, contentDetails")
+                                    .queryParam("chart", "mostPopular")
+                                    .queryParam("regionCode", regionCode)
+                                    .queryParam("maxResults", maxResults)
+                                    .queryParam("key", properties.key())
+                                    .build();
+                        }
+
+                        return uriBuilder
+                                .path("/videos")
+                                .queryParam("part", "snippet,statistics,contentDetails")
+                                .queryParam("chart", "mostPopular")
+                                .queryParam("regionCode", regionCode)
+                                .queryParam("maxResults", maxResults)
+                                .queryParam("videoCategoryId", videoCategoryId)
+                                .queryParam("key", properties.key())
+                                .build();
+                    })
                     .retrieve()
                     .body(YoutubeVideosResponse.class);
         } catch (RestClientException exception) {
-            log.error("Failed to fetch YouTube most popular videos. regionCode={}, maxResults={}", regionCode, maxResults, exception);
-            throw new ExternalApiException("Failed to fetch YouTube most popular videos.", exception);
+            log.error(
+                    "Failed to fetch Youtube most popular videos. regionCode={}, maxResults={}, videoCategoryId={}",
+                    regionCode,
+                    maxResults,
+                    videoCategoryId,
+                    exception
+            );
+            throw new ExternalApiException("Failed to fetch Youtube most popular videos.", exception);
         }
     }
 }

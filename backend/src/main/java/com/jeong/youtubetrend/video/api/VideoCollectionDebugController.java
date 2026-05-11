@@ -20,12 +20,14 @@ public class VideoCollectionDebugController {
     @GetMapping("/debug/videos/collect-most-popular")
     public VideoCollectionDebugResponse collectMostPopular(
             @RequestParam(defaultValue = "KR") String regionCode,
-            @RequestParam(defaultValue = "10") int maxResults
+            @RequestParam(defaultValue = "10") int maxResults,
+            @RequestParam(required = false) String videoCategoryId
     ) {
-        int savedCount = videoCollectionService.collectMostPopularVideos(regionCode, maxResults);
+        int savedCount = videoCollectionService.collectMostPopularVideos(regionCode, maxResults, videoCategoryId);
 
         return new VideoCollectionDebugResponse(
                 regionCode,
+                videoCategoryId,
                 maxResults,
                 savedCount
         );

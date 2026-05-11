@@ -3,6 +3,7 @@ package com.jeong.youtubetrend.video.application;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jeong.youtubetrend.video.domain.Video;
+import com.jeong.youtubetrend.video.domain.VideoSnapshot;
 import com.jeong.youtubetrend.video.infrastructure.VideoRepository;
 import com.jeong.youtubetrend.video.infrastructure.VideoSnapshotRepository;
 import java.time.OffsetDateTime;
@@ -65,6 +66,16 @@ class VideoPersistenceServiceIntegrationTest {
         assertThat(video.getYoutubeVideoId()).isEqualTo("integration-video-1");
         assertThat(video.getTitle()).isEqualTo("Sample title");
         assertThat(videoSnapshotRepository.countByVideo(video)).isEqualTo(1);
+
+        VideoSnapshot snapshot = videoSnapshotRepository.findAll().get(0);
+
+        assertThat(snapshot.getCollectedAt()).isEqualTo(OffsetDateTime.parse("2026-04-15T01:00:00Z"));
+        assertThat(snapshot.getViewCount()).isEqualTo(1000L);
+        assertThat(snapshot.getLikeCount()).isEqualTo(100L);
+        assertThat(snapshot.getCommentCount()).isEqualTo(10L);
+        assertThat(snapshot.getSourceRegion()).isEqualTo("KR");
+        assertThat(snapshot.getSourceCategory()).isEqualTo("10");
+        assertThat(snapshot.getSourceRank()).isEqualTo(1);
     }
 
     @Test

@@ -64,19 +64,20 @@ public class VideoCollectionServiceTest {
                                 ),
                                 new YoutubeVideoContentDetails("PT2M00S")
                         )
+
                 )
         );
 
-        given(youtubeVideoClient.fetchMostPopularVideos("KR", 2)).willReturn(response);
+        given(youtubeVideoClient.fetchMostPopularVideos("KR", 2, "10")).willReturn(response);
 
-        int savedCount = videoCollectionService.collectMostPopularVideos("KR", 2);
+        int savedCount = videoCollectionService.collectMostPopularVideos("KR", 2, "10");
 
         assertThat(savedCount).isEqualTo(2);
         verify(videoPersistenceService, times(2)).persist(
                 any(CollectedVideo.class),
                 any(OffsetDateTime.class),
                 Mockito.eq("KR"),
-                Mockito.isNull(),
+                Mockito.eq("10"),
                 any(Integer.class)
         );
     }
