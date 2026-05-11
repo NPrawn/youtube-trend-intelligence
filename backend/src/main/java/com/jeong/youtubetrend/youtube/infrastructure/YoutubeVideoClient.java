@@ -13,6 +13,7 @@ import org.springframework.web.client.RestClientException;
 public class YoutubeVideoClient {
 
     private static final Logger log = LoggerFactory.getLogger(YoutubeVideoClient.class);
+    private static final String VIDEO_PARTS = "snippet,statistics,contentDetails";
 
     private final RestClient restClient;
     private final YoutubeApiProperties properties;
@@ -30,24 +31,18 @@ public class YoutubeVideoClient {
         try {
             return restClient.get()
                     .uri(uriBuilder -> {
-                        if (videoCategoryId == null || videoCategoryId.isBlank()) {
-                            return uriBuilder
-                                    .path("/videos")
-                                    .queryParam("part", "snippet,statistics, contentDetails")
-                                    .queryParam("chart", "mostPopular")
-                                    .queryParam("regionCode", regionCode)
-                                    .queryParam("maxResults", maxResults)
-                                    .queryParam("key", properties.key())
-                                    .build();
-                        }
-
-                        return uriBuilder
-                                .path("/videos")
-                                .queryParam("part", "snippet,statistics,contentDetails")
+                        var builder = uriBuilder
+                                .path("/video")
+                                .queryParam("part", VIDEO_PARTS)
                                 .queryParam("chart", "mostPopular")
                                 .queryParam("regionCode", regionCode)
-                                .queryParam("maxResults", maxResults)
-                                .queryParam("videoCategoryId", videoCategoryId)
+                                .queryParam("maxResults", maxResults);
+
+                        if (videoCategoryId != null && !videoCategoryId.isBlank()) {
+                            builder.queryParam("videoCategoryId", videoCategoryId);
+                        }
+
+                        return builder
                                 .queryParam("key", properties.key())
                                 .build();
                     })
@@ -61,7 +56,7 @@ public class YoutubeVideoClient {
                     videoCategoryId,
                     exception
             );
-            throw new ExternalApiException("Failed to fetch Youtube most popular videos.", exception);
+            throw new ExternalApiException("Failed to fetch YouTube most popular videos.", exception);
         }
     }
 }

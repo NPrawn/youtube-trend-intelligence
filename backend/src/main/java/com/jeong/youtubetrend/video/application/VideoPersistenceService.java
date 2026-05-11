@@ -5,6 +5,7 @@ import com.jeong.youtubetrend.video.domain.VideoSnapshot;
 import com.jeong.youtubetrend.video.infrastructure.VideoRepository;
 import com.jeong.youtubetrend.video.infrastructure.VideoSnapshotRepository;
 import java.time.OffsetDateTime;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,7 +50,16 @@ public class VideoPersistenceService {
 
     private Video findOrCreateVideo(CollectedVideo collectedVideo) {
         return videoRepository.findByYoutubeVideoId(collectedVideo.youtubeVideoId())
-                .orElseGet(() -> videoRepository.save(videoPersistenceMapper.toVideo(collectedVideo)));
+                .orElseGet(() -> saveOrFindExistingVideo(collectedVideo));
+    }
+
+    private Video saveOrFindExistingVideo(CollectedVideo collectedVideo) {
+        try {
+            return videoRepository.saveAndFlush(videoPersistenceMapper.toVideo(collectedVideo));
+        } catch (DataIntegrityViolationException exception) {
+            return videoRepository.findByYoutubeVideoId(collectedVideo.youtubeVideoId())
+                    .orElseThrow(() -> exception);
+        }
     }
 
 }

@@ -2,6 +2,7 @@ package com.jeong.youtubetrend.video.application;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -44,7 +45,7 @@ public class VideoPersistenceServiceTest {
         Video savedVideo = videoPersistenceMapper.toVideo(collectedVideo);
 
         given(videoRepository.findByYoutubeVideoId("video-1")).willReturn(Optional.empty());
-        given(videoRepository.save(any(Video.class))).willReturn(savedVideo);
+        given(videoRepository.saveAndFlush(any(Video.class))).willReturn(savedVideo);
 
         videoPersistenceService.persist(
                 collectedVideo,
@@ -54,7 +55,7 @@ public class VideoPersistenceServiceTest {
                 1
         );
 
-        verify(videoRepository, times(1)).save(any(Video.class));
+        verify(videoRepository, times(1)).saveAndFlush(any(Video.class));
         verify(videoSnapshotRepository, times(1)).save(any());
     }
 
@@ -88,7 +89,7 @@ public class VideoPersistenceServiceTest {
         );
 
         //then
-        verify(videoRepository, times(0)).save(any(Video.class));
+        verify(videoRepository, never()).saveAndFlush(any(Video.class));
         verify(videoSnapshotRepository, times(1)).save(any());
     }
 }

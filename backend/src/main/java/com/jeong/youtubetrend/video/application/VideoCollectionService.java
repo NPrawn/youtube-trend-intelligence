@@ -5,7 +5,6 @@ import com.jeong.youtubetrend.youtube.infrastructure.dto.YoutubeVideoItem;
 import com.jeong.youtubetrend.youtube.infrastructure.dto.YoutubeVideosResponse;
 import java.time.OffsetDateTime;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class VideoCollectionService {
@@ -24,12 +23,10 @@ public class VideoCollectionService {
         this.videoPersistenceService = videoPersistenceService;
     }
 
-    @Transactional
     public int collectMostPopularVideos(String regionCode, int maxResults) {
         return collectMostPopularVideos(regionCode, maxResults, null);
     }
 
-    @Transactional
     public int collectMostPopularVideos(String regionCode, int maxResults, String videoCategoryId) {
         YoutubeVideosResponse response = youtubeVideoClient.fetchMostPopularVideos(regionCode, maxResults, videoCategoryId);
         OffsetDateTime collectedAt =  OffsetDateTime.now();

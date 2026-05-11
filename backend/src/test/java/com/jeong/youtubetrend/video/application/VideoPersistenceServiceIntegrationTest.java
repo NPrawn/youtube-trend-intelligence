@@ -129,4 +129,35 @@ class VideoPersistenceServiceIntegrationTest {
         assertThat(video.getYoutubeVideoId()).isEqualTo("integration-video-2");
         assertThat(videoSnapshotRepository.countByVideo(video)).isEqualTo(2);
     }
+
+    @Test
+    @DisplayName("videoCategoryId가 null이면 sourceCategory도 null로 저장된다")
+    void saveSnapshotWithNullCategory() {
+        CollectedVideo collectedVideo = new CollectedVideo(
+                "integration-video-3",
+                "Sample title",
+                "channel-1",
+                OffsetDateTime.parse("2026-04-15T00:00:00Z"),
+                120,
+                true,
+                1000L,
+                100L,
+                10L
+        );
+
+        videoPersistenceService.persist(
+                collectedVideo,
+                OffsetDateTime.parse("2026-04-15T01:00:00Z"),
+                "KR",
+                null,
+                1
+        );
+
+        Video video = videoRepository.findByYoutubeVideoId("integration-video-3").orElseThrow();
+        VideoSnapshot snapshot = videoSnapshotRepository.findAll().get(0);
+
+        assertThat(video.getYoutubeVideoId()).isEqualTo("integration-video-3");
+        assertThat(videoSnapshotRepository.countByVideo(video)).isEqualTo(1);
+        assertThat(snapshot.getSourceCategory()).isNull();
+    }
 }
