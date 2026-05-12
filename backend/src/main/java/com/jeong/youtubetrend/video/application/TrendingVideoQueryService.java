@@ -7,8 +7,10 @@ import com.jeong.youtubetrend.video.infrastructure.VideoSnapshotRepository;
 import java.time.OffsetDateTime;
 import java.util.List;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(readOnly = true)
 public class TrendingVideoQueryService {
 
     private final VideoSnapshotRepository videoSnapshotRepository;
