@@ -114,6 +114,27 @@ youtube-trend-intelligence는 공개 데이터를 활용해 영상 / 채널 / �
 - 최근 인기 영상 조회 API
 - 기본 Rising Channel 분석
 
+## 현재 구현 상태
+
+현재 백엔드에는 아래 범위가 구현되어 있다.
+
+- YouTube Data API 연동
+- 인기 영상 수집 디버그 API
+- `video`, `video_snapshot` 저장
+- Shorts / Long-form 길이 기반 분류
+- 최신 Hot Video 조회 API `GET /trends/videos`
+- 기본 테스트 세트
+
+아직 구현되지 않은 대표 기능은 아래와 같다.
+
+- `window` 기반 기간 조회
+- `type=hot/rising/revival` 분석 점수 계산
+- 채널 저장 구조 및 `/trends/channels`
+- 키워드 추출 및 `/trends/keywords`
+- 예측 기능
+
+현재 제품 단계는 "수집 -> 저장 -> 최신 인기 영상 조회"까지 연결된 상태로 보는 것이 맞다.
+
 ## 개발 단계
 1. 서비스 기획 및 지표 정의
 2. API 검증 및 수집 구조 확인
