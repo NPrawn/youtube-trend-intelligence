@@ -6,7 +6,7 @@ import java.time.OffsetDateTime;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ChannelPersistentMapper {
+public class ChannelPersistenceMapper {
     public Channel toChannel(CollectedChannel collectedChannel) {
         return new Channel(
                 collectedChannel.youtubeChannelId(),
