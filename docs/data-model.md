@@ -39,19 +39,21 @@
 목적:
 영상의 고정 정보 저장
 
-컬럼 초안:
+현재 구현 컬럼:
 - id
 - youtube_video_id
 - title
-- description
-- channel_id
+- youtube_channel_id
 - published_at
 - duration_seconds
 - is_short_form
-- category_id
-- default_language
 - created_at
 - updated_at
+
+후속 확장 후보:
+- description
+- category_id
+- default_language
 
 ## 3.2 channel
 
@@ -72,20 +74,22 @@
 ## 3.3 video_snapshot
 
 목적:
-특정 시점의 영상 통계와 점수 저장
+특정 시점의 영상 통계 저장
 
-컬럼 초안:
+현재 구현 컬럼:
 - id
 - video_id
 - collected_at
 - view_count
 - like_count
 - comment_count
-- source_endpoint
 - source_region
 - source_category
-- source_query
 - source_rank
+
+후속 확장 후보:
+- source_endpoint
+- source_query
 - hot_score
 - rising_score
 - revival_score
