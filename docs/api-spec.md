@@ -50,36 +50,39 @@ type을 사용한다.
 ## 3.1 GET /trends/videos
 
 설명:
-기간별 영상 트렌드 조회
+가장 최근 수집 시점 기준 Hot Video 목록 조회
 
 query:
-- window
-- type
-- form
-- region
-- category
-- limit
+- `region` (default: `KR`)
+- `form` (default: `all`)
+  - `all`
+  - `short`
+  - `long`
+- `limit` (default: `20`)
 
 예:
-- /trends/videos?window=1h&type=hot&form=all
-- /trends/videos?window=24h&type=rising&form=short
+- `/trends/videos`
+- `/trends/videos?region=KR&form=all&limit=20`
+- `/trends/videos?region=KR&form=short&limit=10`
 
-응답 예시 필드:
-- videoId
-- title
-- channelId
-- channelTitle
-- publishedAt
-- durationSeconds
-- isShortForm
-- hotScore
-- risingScore
-- revivalScore
-- rank
-- deltaRank
-- source
-- region
-- category
+응답 필드:
+- `videoId`
+- `title`
+- `channelId`
+- `publishedAt`
+- `durationSeconds`
+- `shortForm`
+- `viewCount`
+- `likeCount`
+- `commentCount`
+- `sourceRegion`
+- `sourceCategory`
+- `sourceRank`
+- `collectedAt`
+
+비고:
+- 현재 구현은 가장 최근 `collectedAt` 기준 snapshot만 조회한다.
+- 아직 `window`, `type`, `rising`, `revival` 계산은 지원하지 않는다.
 
 ## 3.2 GET /trends/channels
 
