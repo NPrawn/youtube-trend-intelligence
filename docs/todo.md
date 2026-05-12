@@ -41,7 +41,7 @@
 - [ ] 수집 실패 재시도 정책 정리
 
 ## 6. 조회 기능
-- [ ] /trends/videos 구현
+- [x] /trends/videos 구현
 - [ ] /trends/channels 구현
 - [ ] 영상 상세 API 구현
 - [ ] 채널 상세 API 구현

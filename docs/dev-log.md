@@ -55,3 +55,25 @@
 
 - `maxResults`가 실제 YouTube API 요청에 반영되도록 클라이언트를 보정해야 한다.
 - `sourceCategory`를 수집 요청부터 저장까지 일관되게 전달하도록 정리해야 한다.
+
+## 2026-05-12
+
+### 최근 Hot Video 조회 API 추가
+
+- 저장된 `video`, `video_snapshot` 데이터를 기반으로 `GET /trends/videos` API를 추가했다.
+- 가장 최근 `collectedAt` 기준 snapshot만 조회하도록 구현했다.
+- `region`, `form(all/short/long)`, `limit` 필터를 지원하도록 했다.
+- 응답 DTO와 조회 전용 service를 분리했다.
+- service 단위 테스트와 integration test를 추가했다.
+
+### 현재 상태
+
+- 인기 영상 수집/저장 흐름이 동작한다.
+- 최신 Hot Video 조회 API가 동작한다.
+- 아직 `rising`, `revival`, `window` 기반 분석은 구현하지 않았다.
+
+### 다음 작업 후보
+
+- `GET /trends/videos`의 기간(window) 조회 확장
+- `GET /trends/channels` 구현
+- 채널 수집 및 snapshot 저장 구조 추가
