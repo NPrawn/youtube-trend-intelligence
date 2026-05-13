@@ -77,3 +77,26 @@
 - `GET /trends/videos`의 기간(window) 조회 확장
 - `GET /trends/channels` 구현
 - 채널 수집 및 snapshot 저장 구조 추가
+
+## 2026-05-13
+
+### 채널 저장 구조 추가
+
+- `channel`, `channel_snapshot` 테이블을 추가했다.
+- `Channel`, `ChannelSnapshot` 엔티티와 repository를 추가했다.
+- 수집된 채널 데이터를 표현하는 `CollectedChannel` 모델을 추가했다.
+- `CollectedChannel`을 `Channel`, `ChannelSnapshot`으로 변환하는 매퍼를 추가했다.
+- 채널 기본 정보는 재사용하고, 채널 snapshot은 누적 저장하는 `ChannelPersistenceService`를 추가했다.
+- 매퍼 단위 테스트, 저장 서비스 단위 테스트, 저장 통합 테스트를 추가했다.
+
+### 현재 상태
+
+- 영상 수집/저장/조회 흐름이 동작한다.
+- 채널 저장용 테이블과 애플리케이션 저장 구조가 준비됐다.
+- 아직 YouTube `channels.list` 연동과 실제 채널 수집 흐름은 구현하지 않았다.
+
+### 다음 작업 후보
+
+- YouTube `channels.list` 클라이언트 구현
+- 인기 영상 수집 결과에서 채널 ID를 추출해 채널 정보를 수집하는 흐름 연결
+- `GET /trends/channels` 구현

@@ -29,9 +29,9 @@
 
 ## 4. 데이터 모델 구현
 - [x] video 엔티티 구현
-- [ ] channel 엔티티 구현
+- [x] channel 엔티티 구현
 - [x] video_snapshot 구현
-- [ ] channel_snapshot 구현
+- [x] channel_snapshot 구현
 - [x] 마이그레이션 설정
 
 ## 5. 수집 기능

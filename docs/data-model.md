@@ -60,16 +60,18 @@
 목적:
 채널의 고정 정보 저장
 
-컬럼 초안:
+가현재 구현 컬럼:
 - id
 - youtube_channel_id
 - title
+- created_at
+- updated_at
+
+후속 확장 후보:
 - description
 - published_at
 - custom_url
 - country
-- created_at
-- updated_at
 
 ## 3.3 video_snapshot
 
@@ -97,9 +99,9 @@
 ## 3.4 channel_snapshot
 
 목적:
-특정 시점의 채널 통계와 점수 저장
+특정 시점의 채널 통계 저장
 
-컬럼 초안:
+현재 구현 컬럼:
 - id
 - channel_id
 - collected_at
@@ -107,6 +109,8 @@
 - hidden_subscriber_count
 - view_count
 - video_count
+
+후속 확장 후보:
 - rising_score
 - breakout_score
 - subscriber_momentum_score
